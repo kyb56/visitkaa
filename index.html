@@ -1,5 +1,407 @@
 <!DOCTYPE html>
-<html>
-<head><title>Мой сайт</title></head>
-<body><h1>Привет, мир!</h1></body>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Фото Куб | Печать фото, ксерокопии, ламинация | Оренбург</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e2a3e;
+            line-height: 1.4;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            max-width: 650px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #2c3e66 0%, #1a2a44 100%);
+            padding: 28px 24px 32px 24px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 14px;
+        }
+
+        .content {
+            padding: 28px 24px 32px;
+        }
+
+        .services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 32px;
+            justify-content: center;
+        }
+
+        .service-item {
+            background: #f0f4fa;
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1e2f47;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-block {
+            background: #f8fafd;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 28px;
+            border: 1px solid #eef2f8;
+        }
+
+        .info-title {
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4a627a;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hours-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .hours-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .day {
+            font-weight: 600;
+            color: #1f3a5f;
+        }
+
+        .time {
+            font-weight: 500;
+            color: #2c3e66;
+            background: #ffffff;
+            padding: 2px 8px;border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .note {
+            font-size: 0.75rem;
+            color: #5e7a9a;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            flex: 1;
+            min-width: 130px;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .contact-btn.phone {
+            background: #1f3a5f;
+            color: white;
+        }
+
+        .contact-btn.email {
+            background: #4a627a;
+            color: white;
+        }
+
+        .contact-btn.max {
+            background: #00A3E0;
+            color: white;
+        }
+
+        .contact-btn.max:hover {
+            background: #0082b3;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* БЛОК "КАК НАС НАЙТИ" — ТОЛЬКО АДРЕС И КНОПКИ КАРТ */
+        .how-to-find {
+            background: #f8fafd;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid #eef2f8;
+            text-align: center;
+        }
+
+        .find-title {
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4a627a;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .address-large {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f3a5f;
+            background: white;
+            padding: 12px;
+            border-radius: 20px;
+            margin: 16px 0;
+        }
+
+        .map-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .map-btn.dgis {
+            color: #2c6e9e;
+        }
+
+        .map-btn.yandex {
+            color: #e33e2b;
+        }
+
+        .map-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.15);
+        }
+
+        .small-note {
+            font-size: 0.7rem;
+            margin-top: 12px;
+            color: #6c86a3;
+            text-align: center;
+        }
+
+        .footer {
+            border-top: 1px solid #ecf3f9;
+            margin-top: 16px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #8aa0bc;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+            .contact-btn {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+                min-width: 110px;
+            }
+            .map-btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }.content {
+                padding: 22px 18px;
+            }
+        }
+
+        .card {
+            animation: fadeUp 0.4s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="hero">
+            <h1>📸 Фото Куб</h1>
+            <p>Печать фото • Ксерокопии • Ламинация</p>
+            <div class="badge">⭐ Работаем для вас в Оренбурге</div>
+        </div>
+        <div class="content">
+            <!-- Услуги -->
+            <div class="services">
+                <div class="service-item"><span>🖼️</span> Печать фото</div>
+                <div class="service-item"><span>📄</span> Ксерокопии</div>
+                <div class="service-item"><span>✨</span> Ламинация</div>
+                <div class="service-item"><span>📑</span> Сканирование</div>
+                <div class="service-item"><span>🖨️</span> Цветная/ЧБ печать</div>
+            </div>
+
+            <!-- Режим работы -->
+            <div class="info-block">
+                <div class="info-title">
+                    <span>⏰</span> РЕЖИМ РАБОТЫ
+                </div>
+                <div class="hours-list">
+                    <div class="hours-row">
+                        <span class="day">Понедельник – Пятница</span>
+                        <span class="time">10:00 – 19:00</span>
+                    </div>
+                    <div class="hours-row">
+                        <span class="day">Суббота</span>
+                        <span class="time">10:00 – 16:00</span>
+                    </div>
+                    <div class="hours-row">
+                        <span class="day">Воскресенье</span>
+                        <span class="time">10:00 – 16:00</span>
+                    </div>
+                </div>
+                <div class="note">
+                    🕒 Без обеда | Оперативно выполняем заказы
+                </div>
+            </div>
+
+            <!-- КНОПКИ СВЯЗИ (телефон, почта, Max) -->
+            <div class="contact-buttons">
+                <a href="tel:+79123456742" class="contact-btn phone">
+                    📞 Позвонить
+                </a>
+                <a href="mailto:fotokub56@mail.com?subject=Запрос%20услуг&body=Здравствуйте!%20Интересует%20печать%20фото." class="contact-btn email">
+                    ✉️ Написать
+                </a>
+                <a href="https://max.ru/u/f9LHodD0cOKQh2N5FVEhepWpy83rIcKVvFC8D2fpyo_bc5wzl3FC-R6Ep-k" class="contact-btn max" target="_blank">
+                    💬 MAX
+                </a>
+            </div>
+
+            <!-- БЛОК "КАК НАС НАЙТИ" — КНОПКИ ВЕДУТ НА ВАШИ КАРТОЧКИ В 2ГИС И ЯНДЕКСЕ -->
+            <div class="how-to-find">
+                <div class="find-title">
+                    <span>📍</span> КАК НАС НАЙТИ
+                </div>
+                <div class="address-large">
+                    г. Оренбург, проезд Нижний, 5<br>
+                    Отдел «Фото Куб»
+                </div>
+                <div class="map-buttons">
+                    <a href="https://2gis.ru/orenburg/firm/70000001082037989" target="_blank" class="map-btn dgis">
+                        🗺️ 2ГИС
+                    </a>
+                    <a href="https://yandex.ru/maps/org/fotokub/86182119587/" target="_blank" class="map-btn yandex">
+                        🧭 Яндекс.Карты
+                    </a>
+                </div>
+                <div class="small-note">
+                    Нажмите на кнопку, чтобы посмотреть часы работы, отзывы и построить маршрут
+                </div>
+            </div>
+
+            <!-- Дополнительные контакты -->
+            <div class="small-note">
+                📞 +7 (912) 345-67-42 &nbsp;|&nbsp; ✉️ fotokub56@gmail.com
+            </div>
+
+            <div class="footer">
+                💳 Наличные, карты, онлайн-оплата<br>
+                ⏱ Работаем быстро и качественно
+            </div>
+        </div></div>
+</body>
 </html>
