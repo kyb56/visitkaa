@@ -85,6 +85,19 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .service-item:hover {
+            background: #e2e9f2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -8px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-item:active {
+            transform: translateY(1px);
         }
 
         .info-block {
@@ -136,7 +149,8 @@
             font-weight: 500;
             color: #2c3e66;
             background: #ffffff;
-            padding: 2px 8px;border-radius: 20px;
+            padding: 2px 8px;
+            border-radius: 20px;
             font-size: 0.85rem;
         }
 
@@ -197,7 +211,6 @@
             box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.2);
         }
 
-        /* БЛОК "КАК НАС НАЙТИ" — ТОЛЬКО АДРЕС И КНОПКИ КАРТ */
         .how-to-find {
             background: #f8fafd;
             border-radius: 24px;
@@ -281,6 +294,101 @@
             color: #8aa0bc;
         }
 
+        /* Модальное окно с ценами */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            margin: 20px;
+            padding: 0;
+            border-radius: 32px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35);
+            animation: fadeUp 0.25s ease-out;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #1f3a5f;
+            color: white;
+            padding: 20px 24px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header span {
+            cursor: pointer;
+            font-size: 1.8rem;
+            line-height: 1;
+            transition: opacity 0.2s;
+        }
+
+        .modal-header span:hover {
+            opacity: 0.7;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .price-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .price-list td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #ecf3f9;
+            font-size: 0.95rem;
+        }
+
+        .price-list td:last-child {
+            text-align: right;
+            font-weight: 700;
+            color: #1f3a5f;
+        }
+
+        .price-list tr:last-child td {
+            border-bottom: none;
+        }
+
+        .price-category {
+            background: #f0f4fa;
+            font-weight: 700;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            padding: 8px 8px 4px 8px;
+            border-radius: 16px;
+            color: #1e2f47;
+        }
+
+        .price-note {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 20px;
+            color: #6c86a3;
+            background: #f8fafd;
+            padding: 10px;
+            border-radius: 20px;
+        }
+
         @media (max-width: 480px) {
             body {
                 padding: 12px;
@@ -296,13 +404,13 @@
             .map-btn {
                 padding: 10px 18px;
                 font-size: 0.85rem;
-            }.content {
+            }
+            .content {
                 padding: 22px 18px;
             }
-        }
-
-        .card {
-            animation: fadeUp 0.4s ease-out;
+            .modal-body {
+                padding: 18px;
+            }
         }
 
         @keyframes fadeUp {
@@ -325,13 +433,13 @@
             <div class="badge">⭐ Работаем для вас в Оренбурге</div>
         </div>
         <div class="content">
-            <!-- Услуги -->
+            <!-- Услуги (теперь кликабельны) -->
             <div class="services">
-                <div class="service-item"><span>🖼️</span> Печать фото</div>
-                <div class="service-item"><span>📄</span> Ксерокопии</div>
-                <div class="service-item"><span>✨</span> Ламинация</div>
-                <div class="service-item"><span>📑</span> Сканирование</div>
-                <div class="service-item"><span>🖨️</span> Цветная/ЧБ печать</div>
+                <div class="service-item" data-service="photo">🖼️ Печать фото</div>
+                <div class="service-item" data-service="copy">📄 Ксерокопии</div>
+                <div class="service-item" data-service="lamination">✨ Ламинация</div>
+                <div class="service-item" data-service="scan">📑 Сканирование</div>
+                <div class="service-item" data-service="print">🖨️ Цветная/ЧБ печать</div>
             </div>
 
             <!-- Режим работы -->
@@ -402,6 +510,169 @@
                 💳 Наличные, карты, онлайн-оплата<br>
                 ⏱ Работаем быстро и качественно
             </div>
-        </div></div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО С ЦЕНАМИ -->
+    <div id="priceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📋 Наши цены</span>
+                <span id="closeModalBtn">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Динамически подставляемое содержимое в зависимости от услуги -->
+                <div style="text-align: center; padding: 20px;">Загрузка...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // База данных с ценами и описанием для каждой услуги
+        const pricesData = {
+            photo: {
+                title: "🖼️ Печать фото",
+                rows: [
+                    { name: "10×15 см", price: "20 ₽" },
+                    { name: "15×21 см", price: "45 ₽" },
+                    { name: "21×30 см", price: "60 ₽" }
+                ],
+                note: "Глянцевая / матовая бумага, профессиональная цветопередача."
+            },
+            copy: {
+                title: "📄 Ксерокопии",
+                rows: [
+                    { name: "Ч/Б копия (любой формат до А4)", price: "10 ₽ / лист" },
+                    { name: "Цветная копия А4", price: "25 ₽" }
+                ],
+                note: "Быстрое копирование документов, удостоверений, книг."
+            },
+            lamination: {
+                title: "✨ Ламинация",
+                rows: [
+                    { name: "А6 (105×148 мм)", price: "35 ₽" },
+                    { name: "А5 (148×210 мм)", price: "45 ₽" },
+                    { name: "А4 (210×297 мм)", price: "55 ₽" }
+                ],
+                note: "Глянцевая пленка, защита от влаги и износа."
+            },
+            scan: {
+                title: "📑 Сканирование",
+                rows: [
+                    { name: "Сканирование документа (до А4)", price: "15 ₽ / страница" },
+                    { name: "Сканирование фото / слайда", price: "15 ₽" }
+                ],
+                note: "Разрешение до 600 dpi, отправка на почту или флешку."
+            },
+            print: {
+                title: "🖨️ Цветная / ЧБ печать",
+                rows: [
+                    { name: "Черно-белая печать (А4)", price: "10 ₽ / лист" },
+                    { name: "Цветная печать (А4)", price: "25 ₽ / лист" }
+                ],
+                note: "Формат А4, быстрая печать с флешки, телефона или облака."
+            }
+        };
+
+        // Получаем элементы модалки
+        const modal = document.getElementById("priceModal");
+        const modalBody = document.getElementById("modalBody");
+        const closeModalSpan = document.getElementById("closeModalBtn");
+
+        // Функция отображения модального окна с данными конкретной услуги
+        function showPriceModal(serviceKey) {
+            const data = pricesData[serviceKey];
+            if (!data) return;
+
+            // Строим HTML-таблицу с ценами
+            let rowsHtml = "";
+            data.rows.forEach(item => {
+                rowsHtml += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.price}</td>
+                    </tr>
+                `;
+            });
+
+            const fullHtml = `
+                <table class="price-list">
+                    <tbody>
+                        ${rowsHtml}
+                    </tbody>
+                </table>
+                <div class="price-note">
+                    💡 ${data.note}
+                </div>
+                <div class="price-note" style="margin-top: 12px; background: #eef2fa;">
+                    🕒 Актуально на сегодня | Обращайтесь, поможем с выбором!
+                </div>
+            `;
+
+            // Вставим динамический заголовок (можно через модальный header, но заголовок в data)
+            // Поменяем текст в заголовке модалки (стильно)
+            const modalHeaderTitle = document.querySelector("#priceModal .modal-header span:first-child");
+            if (modalHeaderTitle) {
+                modalHeaderTitle.innerHTML = data.title;
+            }
+
+            modalBody.innerHTML = fullHtml;
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // предотвращаем скролл фона
+        }
+
+        // Закрыть модалку
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = "";
+            // Восстановим заголовок по умолчанию, чтобы при следующем открытии не было артефактов
+            const modalHeaderTitle = document.querySelector("#priceModal .modal-header span:first-child");
+            if (modalHeaderTitle) {
+                modalHeaderTitle.innerHTML = "📋 Наши цены";
+            }
+        }
+
+        // Обработчики для всех кликабельных кнопок услуг
+        const serviceElements = document.querySelectorAll(".service-item");
+        serviceElements.forEach(el => {
+            el.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const serviceType = el.getAttribute("data-service");
+                if (serviceType && pricesData[serviceType]) {
+                    showPriceModal(serviceType);
+                } else {
+                    // fallback на случай, если атрибут не задан (но по коду задан)
+                    console.warn("Неизвестный тип услуги");
+                }
+            });
+        });
+
+        // Закрытие по крестику
+        closeModalSpan.addEventListener("click", closeModal);
+
+        // Закрытие при клике вне области контента
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Закрытие по клавише Escape
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && modal.style.display === "flex") {
+                closeModal();
+            }
+        });
+
+        // Небольшая дополнительная опция: если кликнуть внутри модального контента — не закрывать
+        const modalContentDiv = document.querySelector(".modal-content");
+        if (modalContentDiv) {
+            modalContentDiv.addEventListener("click", (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // Предотвращаем случайное всплытие событий
+    </script>
 </body>
 </html>
