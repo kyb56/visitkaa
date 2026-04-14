@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Фото Куб | Печать фото, ксерокопии, ламинация | Оренбург</title>
+    <title>Фото Куб | Печать фото, ксерокопии, ламинация, фото на документы | Оренбург</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -148,8 +148,7 @@
         .time {
             font-weight: 500;
             color: #2c3e66;
-            background: #ffffff;
-            padding: 2px 8px;
+            background: #ffffff;padding: 2px 8px;
             border-radius: 20px;
             font-size: 0.85rem;
         }
@@ -310,8 +309,7 @@
             justify-content: center;
         }
 
-        .modal-content {
-            background: #ffffff;
+        .modal-content {background: #ffffff;
             margin: 20px;
             padding: 0;
             border-radius: 32px;
@@ -380,13 +378,22 @@
         }
 
         .price-note {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-align: center;
             margin-top: 20px;
-            color: #6c86a3;
+            color: #4a627a;
             background: #f8fafd;
-            padding: 10px;
+            padding: 12px;
             border-radius: 20px;
+            line-height: 1.4;
+        }
+
+        .price-note-small {
+            font-size: 0.7rem;
+            color: #6c86a3;
+            margin-top: 12px;
+            text-align: center;
+            line-height: 1.5;
         }
 
         @media (max-width: 480px) {
@@ -429,23 +436,23 @@
     <div class="card">
         <div class="hero">
             <h1>📸 Фото Куб</h1>
-            <p>Печать фото • Ксерокопии • Ламинация</p>
+            <p>Печать фото • Ксерокопии • Ламинация • Фото на документы</p>
             <div class="badge">⭐ Работаем для вас в Оренбурге</div>
         </div>
         <div class="content">
-            <!-- Услуги (теперь кликабельны) -->
+            <!-- Услуги (кликабельны) -->
             <div class="services">
                 <div class="service-item" data-service="photo">🖼️ Печать фото</div>
                 <div class="service-item" data-service="copy">📄 Ксерокопии</div>
                 <div class="service-item" data-service="lamination">✨ Ламинация</div>
+                <div class="service-item" data-service="docphoto">🆔 Фото на документы</div>
                 <div class="service-item" data-service="scan">📑 Сканирование</div>
                 <div class="service-item" data-service="print">🖨️ Цветная/ЧБ печать</div>
             </div>
 
             <!-- Режим работы -->
             <div class="info-block">
-                <div class="info-title">
-                    <span>⏰</span> РЕЖИМ РАБОТЫ
+                <div class="info-title"><span>⏰</span> РЕЖИМ РАБОТЫ
                 </div>
                 <div class="hours-list">
                     <div class="hours-row">
@@ -466,7 +473,7 @@
                 </div>
             </div>
 
-            <!-- КНОПКИ СВЯЗИ (телефон, почта, Max) -->
+            <!-- КНОПКИ СВЯЗИ -->
             <div class="contact-buttons">
                 <a href="tel:+79123456742" class="contact-btn phone">
                     📞 Позвонить
@@ -479,7 +486,7 @@
                 </a>
             </div>
 
-            <!-- БЛОК "КАК НАС НАЙТИ" — КНОПКИ ВЕДУТ НА ВАШИ КАРТОЧКИ В 2ГИС И ЯНДЕКСЕ -->
+            <!-- БЛОК "КАК НАС НАЙТИ" -->
             <div class="how-to-find">
                 <div class="find-title">
                     <span>📍</span> КАК НАС НАЙТИ
@@ -521,14 +528,13 @@
                 <span id="closeModalBtn">&times;</span>
             </div>
             <div class="modal-body" id="modalBody">
-                <!-- Динамически подставляемое содержимое в зависимости от услуги -->
                 <div style="text-align: center; padding: 20px;">Загрузка...</div>
             </div>
         </div>
     </div>
 
     <script>
-        // База данных с ценами и описанием для каждой услуги
+        // База данных с ценами и описанием
         const pricesData = {
             photo: {
                 title: "🖼️ Печать фото",
@@ -544,8 +550,7 @@
                 rows: [
                     { name: "Ч/Б копия (любой формат до А4)", price: "10 ₽ / лист" },
                     { name: "Цветная копия А4", price: "25 ₽" }
-                ],
-                note: "Быстрое копирование документов, удостоверений, книг."
+                ],note: "Быстрое копирование документов, удостоверений, книг."
             },
             lamination: {
                 title: "✨ Ламинация",
@@ -555,6 +560,14 @@
                     { name: "А4 (210×297 мм)", price: "55 ₽" }
                 ],
                 note: "Глянцевая пленка, защита от влаги и износа."
+            },
+            docphoto: {
+                title: "🆔 Фото на документы",
+                rows: [
+                    { name: "Фото на документы (любой формат)", price: "от 250 ₽" }
+                ],
+                note: "Цифровое фото + печать. Соблюдаем все требования ГОСТ. Быстро, качественно, можно сразу получить готовый снимок.",
+                smallNote: "📌 Паспорт РФ • Загранпаспорт • Виза • Автошкола • Личное дело • Удостоверение • Пропуск • Студенческий"
             },
             scan: {
                 title: "📑 Сканирование",
@@ -574,17 +587,14 @@
             }
         };
 
-        // Получаем элементы модалки
         const modal = document.getElementById("priceModal");
         const modalBody = document.getElementById("modalBody");
         const closeModalSpan = document.getElementById("closeModalBtn");
 
-        // Функция отображения модального окна с данными конкретной услуги
         function showPriceModal(serviceKey) {
             const data = pricesData[serviceKey];
             if (!data) return;
 
-            // Строим HTML-таблицу с ценами
             let rowsHtml = "";
             data.rows.forEach(item => {
                 rowsHtml += `
@@ -595,6 +605,12 @@
                 `;
             });
 
+            // Добавляем smallNote, если есть (для фото на документы)
+            let smallNoteHtml = "";
+            if (data.smallNote) {
+                smallNoteHtml = `<div class="price-note-small">${data.smallNote}</div>`;
+            }
+
             const fullHtml = `
                 <table class="price-list">
                     <tbody>
@@ -604,13 +620,12 @@
                 <div class="price-note">
                     💡 ${data.note}
                 </div>
+                ${smallNoteHtml}
                 <div class="price-note" style="margin-top: 12px; background: #eef2fa;">
-                    🕒 Актуально на сегодня | Обращайтесь, поможем с выбором!
+                    🕒 Актуальные цены | Приходите — сделаем отлично!
                 </div>
             `;
 
-            // Вставим динамический заголовок (можно через модальный header, но заголовок в data)
-            // Поменяем текст в заголовке модалки (стильно)
             const modalHeaderTitle = document.querySelector("#priceModal .modal-header span:first-child");
             if (modalHeaderTitle) {
                 modalHeaderTitle.innerHTML = data.title;
@@ -618,61 +633,50 @@
 
             modalBody.innerHTML = fullHtml;
             modal.style.display = "flex";
-            document.body.style.overflow = "hidden"; // предотвращаем скролл фона
+            document.body.style.overflow = "hidden";
         }
 
-        // Закрыть модалку
         function closeModal() {
             modal.style.display = "none";
             document.body.style.overflow = "";
-            // Восстановим заголовок по умолчанию, чтобы при следующем открытии не было артефактов
             const modalHeaderTitle = document.querySelector("#priceModal .modal-header span:first-child");
             if (modalHeaderTitle) {
                 modalHeaderTitle.innerHTML = "📋 Наши цены";
             }
         }
 
-        // Обработчики для всех кликабельных кнопок услуг
         const serviceElements = document.querySelectorAll(".service-item");
         serviceElements.forEach(el => {
             el.addEventListener("click", (e) => {
-                e.stopPropagation();
-                const serviceType = el.getAttribute("data-service");
+                e.stopPropagation();const serviceType = el.getAttribute("data-service");
                 if (serviceType && pricesData[serviceType]) {
                     showPriceModal(serviceType);
                 } else {
-                    // fallback на случай, если атрибут не задан (но по коду задан)
                     console.warn("Неизвестный тип услуги");
                 }
             });
         });
 
-        // Закрытие по крестику
         closeModalSpan.addEventListener("click", closeModal);
 
-        // Закрытие при клике вне области контента
         window.addEventListener("click", (event) => {
             if (event.target === modal) {
                 closeModal();
             }
         });
 
-        // Закрытие по клавише Escape
         document.addEventListener("keydown", (event) => {
             if (event.key === "Escape" && modal.style.display === "flex") {
                 closeModal();
             }
         });
 
-        // Небольшая дополнительная опция: если кликнуть внутри модального контента — не закрывать
         const modalContentDiv = document.querySelector(".modal-content");
         if (modalContentDiv) {
             modalContentDiv.addEventListener("click", (e) => {
                 e.stopPropagation();
             });
         }
-
-        // Предотвращаем случайное всплытие событий
     </script>
 </body>
 </html>
